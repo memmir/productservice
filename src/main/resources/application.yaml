@@ -12,7 +12,9 @@ server:
   port: 9788
 ---
 spring:
-  profiles: localhost
+  config:
+    activate:
+      on-profile: localhost
   cloud:
     config:
       uri: http://localhost:8888
