@@ -1,6 +1,8 @@
 package com.mahmuttech.stockmanagement.productservice.service.impl;
 
 import com.mahmuttech.stockmanagement.productservice.enums.Language;
+import com.mahmuttech.stockmanagement.productservice.exception.enums.FriendlyMessageCodes;
+import com.mahmuttech.stockmanagement.productservice.exception.exceptions.ProductNotCreatedException;
 import com.mahmuttech.stockmanagement.productservice.repository.entity.Product;
 import com.mahmuttech.stockmanagement.productservice.repository.entity.ProductRepository;
 import com.mahmuttech.stockmanagement.productservice.request.ProductCreateRequest;
@@ -29,8 +31,13 @@ public class ProductRepositoryImpl implements IProductRepositoryService {
                     .price(productCreateRequest.getPrice())
                     .deleted(false)
                     .build();
-        }catch (Exception e){}
-        return null;
+            Product productResponse = productRepository.save(product);
+            log.debug("[{}][createProduct] -> response: {}",this.getClass().getSimpleName(),productResponse);
+            return productResponse;
+        }catch (Exception e){
+            throw new ProductNotCreatedException(language, FriendlyMessageCodes.PRODUCT_NOT_CREATED_EXCEPTION, "product request " + productCreateRequest.toString());
+        }
+
     }
 
     @Override
