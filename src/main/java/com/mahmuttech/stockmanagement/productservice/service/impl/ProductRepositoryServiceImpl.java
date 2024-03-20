@@ -12,14 +12,22 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class ProductRepositoryImpl implements IProductRepositoryService {
+public class ProductRepositoryServiceImpl implements IProductRepositoryService {
+
+
+
 
     private final ProductRepository productRepository;
+
+
+
+
 
     @Override
     public Product createProduct(Language language, ProductCreateRequest productCreateRequest) {
@@ -29,6 +37,8 @@ public class ProductRepositoryImpl implements IProductRepositoryService {
                     .productName(productCreateRequest.getProductName())
                     .quantity(productCreateRequest.getQuantity())
                     .price(productCreateRequest.getPrice())
+                    .productCreatedDate(new Date())
+                    .productUpdatedDate(new Date())
                     .deleted(false)
                     .build();
             Product productResponse = productRepository.save(product);
