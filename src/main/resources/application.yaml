@@ -28,4 +28,4 @@ spring:
   datasource:
     url: "jdbc:postgresql://localhost:5432/stock_management"
     username: postgres
-    password: Asdf@1234
+    password: postgre
