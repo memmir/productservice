@@ -28,4 +28,5 @@ spring:
   datasource:
     url: "jdbc:postgresql://localhost:5432/stock_management"
     username: postgres
-    password: postgre
+    password: postgres
+    #is bilgisayarında şifre postgres. evdeki bilgisayarda postgre.
