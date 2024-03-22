@@ -3,6 +3,7 @@ package com.mahmuttech.stockmanagement.productservice.service.impl;
 import com.mahmuttech.stockmanagement.productservice.enums.Language;
 import com.mahmuttech.stockmanagement.productservice.exception.enums.FriendlyMessageCodes;
 import com.mahmuttech.stockmanagement.productservice.exception.exceptions.ProductNotCreatedException;
+import com.mahmuttech.stockmanagement.productservice.exception.exceptions.ProductNotFoundException;
 import com.mahmuttech.stockmanagement.productservice.repository.entity.Product;
 import com.mahmuttech.stockmanagement.productservice.repository.entity.ProductRepository;
 import com.mahmuttech.stockmanagement.productservice.request.ProductCreateRequest;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -31,7 +33,7 @@ public class ProductRepositoryServiceImpl implements IProductRepositoryService {
 
     @Override
     public Product createProduct(Language language, ProductCreateRequest productCreateRequest) {
-        log.debug("[{}][create product] -> request: {}", this.getClass().getSimpleName(), productCreateRequest);
+        log.debug("[{}][createProduct] -> request: {}", this.getClass().getSimpleName(), productCreateRequest);
         try{
             Product product= Product.builder()
                     .productName(productCreateRequest.getProductName())
@@ -52,7 +54,15 @@ public class ProductRepositoryServiceImpl implements IProductRepositoryService {
 
     @Override
     public Product getProduct(Language language, Long productId) {
-        return null;
+        log.debug("[{}][getProduct] -> request: {}", this.getClass().getSimpleName(), productId);
+        Product product = productRepository.getByProductIdAndDeletedFalse(productId);
+        if(Objects.isNull(product)){
+            throw new ProductNotFoundException(language, FriendlyMessageCodes.PRODUCT_NOT_FOUND_EXCEPTION,"Product not found for product id: " + productId);
+        }
+
+        log.debug("[{}][getProduct] -> response: {}",this.getClass().getSimpleName(),productId);
+
+        return product;
     }
 
     @Override
