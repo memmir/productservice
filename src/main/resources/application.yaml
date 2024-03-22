@@ -10,6 +10,11 @@ info:
 
 server:
   port: 9788
+logging: ##Uygulamadaki logları takip edebilmek için eklenen conf.
+  level:
+    root: debug
+    ##root: off
+    ##com.eleiatech:debug ## bu şekilde diyerek daha az ve daha az karışık log görebiliriz.
 ---
 spring:
   config:
@@ -28,5 +33,5 @@ spring:
   datasource:
     url: "jdbc:postgresql://localhost:5432/stock_management"
     username: postgres
-    password: postgres
+    password: postgre
     #is bilgisayarında şifre postgres. evdeki bilgisayarda postgre.
