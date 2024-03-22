@@ -43,6 +43,21 @@ public class ProductController {
                 .build();
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping(value = "/{language}/get/{productId}")
+    public InternalApiResponse<ProductResponse> getProduct(@PathVariable("language")Language language,
+                                                           @PathVariable("productId") Long productId){
+        log.debug("[{}][getProduct] -> request: {}", this.getClass().getSimpleName(), productId);
+        Product product = iProductRepositoryService.getProduct(language,productId);
+        ProductResponse productResponse = convertProductResponse(product);
+        log.debug("[{}][getProduct] -> response: {}", this.getClass().getSimpleName(), productId);
+        return InternalApiResponse.<ProductResponse>builder()
+                .httpStatus(HttpStatus.OK)
+                .hasError(false)
+                .payload(productResponse)
+                .build();
+    }
+
     //Setleme işlemini birden fazla kez yapacağımız için setleme işlemlerinin gerçekleştiği bir methoda dönüştürüyoruz.
     private ProductResponse convertProductResponse(Product product) {
          return ProductResponse.builder()
