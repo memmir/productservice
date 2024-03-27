@@ -67,7 +67,15 @@ public class ProductRepositoryServiceImpl implements IProductRepositoryService {
 
     @Override
     public List<Product> getProducts(Language language) {
-        return null;
+        log.debug("[{}][getProducts] -> request: {}", this.getClass().getSimpleName());
+
+        List<Product> productList = productRepository.getAllByDeletedFalse();
+
+        if(productList.isEmpty()){
+            throw new ProductNotFoundException(language, FriendlyMessageCodes.PRODUCT_NOT_FOUND_EXCEPTION, "Products not found.");
+        }
+        log.debug("[{}][getProducts] -> response: {}", this.getClass().getSimpleName(), productList);
+        return productList;
     }
 
     @Override
@@ -83,7 +91,7 @@ public class ProductRepositoryServiceImpl implements IProductRepositoryService {
 
         Product productResponse = productRepository.save(product);
 
-        log.debug("[{}][updateProduct] -> request: {}", this.getClass().getSimpleName(), productResponse);
+        log.debug("[{}][updateProduct] -> response: {}", this.getClass().getSimpleName(), productResponse);
         return productResponse;
 
     }
