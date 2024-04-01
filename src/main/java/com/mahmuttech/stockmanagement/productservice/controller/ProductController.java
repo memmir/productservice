@@ -99,6 +99,25 @@ public class ProductController {
                 .build();
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @DeleteMapping(value = "/{language}/delete/{productId}")
+    public InternalApiResponse<ProductResponse> deleteProduct(@PathVariable("language") Language language,
+                                                              @PathVariable("productId") Long productId){
+        log.debug("[{}][deleteProduct] -> request: {}", this.getClass().getSimpleName(), productId);
+        Product product = iProductRepositoryService.deleteProduct(language, productId);
+        ProductResponse productResponse = convertProductResponse(product);
+        log.debug("[{}][deleteProduct] -> response: {}", this.getClass().getSimpleName(), productResponse);
+        return InternalApiResponse.<ProductResponse>builder()
+                .friendlyMessage(FriendlyMessage.builder()
+                        .title(FriendlyMessageUtils.getFriendlyMessage(language, FriendlyMessageCodes.SUCCES))
+                        .description(FriendlyMessageUtils.getFriendlyMessage(language,FriendlyMessageCodes.PRODUCT_SUCCESFULLY_DELETED))
+                        .build())
+                .httpStatus(HttpStatus.OK)
+                .hasError(false)
+                .payload(productResponse)
+                .build();
+    }
+
     private List<ProductResponse> convertProductResponseList (List<Product> productList){
         return productList.stream()
                 .map(arg -> ProductResponse.builder()
