@@ -1,6 +1,7 @@
 package com.mahmuttech.stockmanagement.productservice.exception.handler;
 
 import com.mahmuttech.stockmanagement.productservice.exception.enums.FriendlyMessageCodes;
+import com.mahmuttech.stockmanagement.productservice.exception.exceptions.ProductAlreadyDeletedException;
 import com.mahmuttech.stockmanagement.productservice.exception.exceptions.ProductNotCreatedException;
 import com.mahmuttech.stockmanagement.productservice.exception.exceptions.ProductNotFoundException;
 import com.mahmuttech.stockmanagement.productservice.exception.utils.FriendlyMessageUtils;
@@ -39,6 +40,20 @@ public class GlobalExceptionHandler {
                         .description(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(),exception.getFriendlyMessageCode()))
                         .build())
                 .httpStatus(HttpStatus.NOT_FOUND)
+                .hasError(true)
+                .errorMessage(Collections.singletonList(exception.getMessage()))
+                .build();
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(ProductAlreadyDeletedException.class)
+    public InternalApiResponse<String> handleProductAlreadyDeletedException(ProductNotFoundException exception){
+        return InternalApiResponse.<String>builder()
+                .friendlyMessage(FriendlyMessage.builder()
+                        .title(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(),FriendlyMessageCodes.ERROR))
+                        .description(FriendlyMessageUtils.getFriendlyMessage(exception.getLanguage(),exception.getFriendlyMessageCode()))
+                        .build())
+                .httpStatus(HttpStatus.BAD_REQUEST)
                 .hasError(true)
                 .errorMessage(Collections.singletonList(exception.getMessage()))
                 .build();
