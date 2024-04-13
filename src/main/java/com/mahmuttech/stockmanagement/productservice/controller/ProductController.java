@@ -10,6 +10,7 @@ import com.mahmuttech.stockmanagement.productservice.response.FriendlyMessage;
 import com.mahmuttech.stockmanagement.productservice.response.InternalApiResponse;
 import com.mahmuttech.stockmanagement.productservice.response.ProductResponse;
 import com.mahmuttech.stockmanagement.productservice.service.IProductRepositoryService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,6 +49,7 @@ public class ProductController {
                 .build();
     }
 
+    @Operation(description = "This endpoint get all product.")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/{language}/get/{productId}")
     public InternalApiResponse<ProductResponse> getProduct(@PathVariable("language")Language language,
