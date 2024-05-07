@@ -31,7 +31,7 @@ public class ProductController {
     @PostMapping(value = "/{language}/create")
     public InternalApiResponse<ProductResponse> createProduct(@PathVariable("language") Language language, @RequestBody ProductCreateRequest productCreateRequest){
 
-        log.debug("[{}][create product] -> request: {}", this.getClass().getSimpleName(), productCreateRequest);
+        log.debug("[{}][createProduct] -> request: {}", this.getClass().getSimpleName(), productCreateRequest);
         Product product = iProductRepositoryService.createProduct(language, productCreateRequest);
         ProductResponse productResponse = convertProductResponse(product);
         log.debug("[{}][createProduct] -> response: {}",this.getClass().getSimpleName(),productResponse);
