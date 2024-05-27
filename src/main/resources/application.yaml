@@ -60,7 +60,7 @@ spring:
       hibernate:
         default_schema: stock_management
   datasource:
-    url: "jdbc:postgresql://postgres:5435/product"
+    url: "jdbc:postgresql://postgres:1001/product"
     username: postgres
     password: postgres
     #is bilgisayarında şifre postgres. evdeki bilgisayarda postgre.
@@ -68,7 +68,7 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://eureka-server:8761/eureka
+      defaultZone: http://eureka-server:1003/eureka
   instance:
     prefer-ip-address: true
     lease-renewal-interval-in-seconds: 10
