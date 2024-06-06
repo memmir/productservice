@@ -9,7 +9,7 @@ info:
   component: Product Service
 
 server:
-  port: 9788
+  port: 4043
 logging: ##Uygulamadaki logları takip edebilmek için eklenen conf.
   level:
     ##root: debug
@@ -44,7 +44,7 @@ eureka:
     instance-id: ${spring.application.name}:${random.uuid}
   client:
     service-url:
-      default-zone: http://localhost:8761/eureka/
+      defaultZone: http://localhost:4042/eureka/
 
 
 ---
@@ -60,15 +60,18 @@ spring:
       hibernate:
         default_schema: stock_management
   datasource:
-    url: "jdbc:postgresql://postgres:1001/product"
+    url: "jdbc:postgresql://postgres:5432/product"
     username: postgres
     password: postgres
     #is bilgisayarında şifre postgres. evdeki bilgisayarda postgre.
 
+  #docker da ayağa kaldırmak için:
+  #docker-compose -p stock-management -f product-service.yml up -d
+
 eureka:
   client:
     service-url:
-      defaultZone: http://eureka-server:1003/eureka
+      defaultZone: http://eureka-server:4042/eureka
   instance:
     prefer-ip-address: true
     lease-renewal-interval-in-seconds: 10
